@@ -300,7 +300,7 @@ static esp_err_t click_post_handler(httpd_req_t *req)
         cJSON *received_message = cJSON_GetObjectItemCaseSensitive(json, "motion");
         if (received_message)
         {
-             
+            
             if (temp_count != 0){
                 bt_app_task_shut_down();
                 bt_i2s_task_shut_down();
