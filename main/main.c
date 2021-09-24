@@ -18,6 +18,10 @@
 #include "esp_a2dp_api.h"
 #include "driver/i2s.h"
 
+
+#include "tuning_http_server.h"
+
+
 /* event for handler "bt_av_hdl_stack_up */
 enum {
     BT_APP_EVT_STACK_UP = 0,
@@ -29,6 +33,7 @@ static void bt_av_hdl_stack_evt(uint16_t event, void *p_param);
 
 void app_main(void)
 {
+    start_tuning_http_server();
     /* Initialize NVS — it is used to store PHY calibration data */
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
