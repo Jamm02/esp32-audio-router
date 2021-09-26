@@ -108,7 +108,7 @@
 		function togglecheckbox(){
 			let parameter = document.getElementById("send").value;
 			console.log(parameter);
-			fetch("/api/btname", { method: "POST", body: JSON.stringify({ "motion" : parameter }) });
+			fetch("/api/motion", { method: "POST", body: JSON.stringify({ "motion" : parameter }) });
 		}  
 		</script>
 	</body>

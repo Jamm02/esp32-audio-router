@@ -1,0 +1,4 @@
+source "/Users/moteenshah/Desktop/Workspace/a2dp_sink/components/app_update/Kconfig.projbuild"
+source "/Users/moteenshah/Desktop/Workspace/a2dp_sink/components/bootloader/Kconfig.projbuild"
+source "/Users/moteenshah/Desktop/Workspace/a2dp_sink/components/esptool_py/Kconfig.projbuild"
+source "/Users/moteenshah/Desktop/Workspace/a2dp_sink/components/partition_table/Kconfig.projbuild"

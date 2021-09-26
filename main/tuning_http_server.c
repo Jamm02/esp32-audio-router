@@ -2,7 +2,7 @@
 #include <string.h>
 #include "sra_board.h"
 #include <math.h>
-#include "motion.h"
+
 
 static const char *TAG = "tuning_http_server";
 static char scratch[SCRATCH_BUFSIZE];
@@ -151,7 +151,7 @@ static esp_err_t click_post_handler(httpd_req_t *req)
             char *response_string = malloc(strlen(received_message->valuestring) + 200);
             sprintf(response_string, "Motion is : %s", received_message->valuestring);
             
-            char *str = received_message->valuestring; //BT_NAME received
+            // char *str = received_message->valuestring; //BT_NAME received
 
             ESP_LOGI(TAG, "BT_NAME %s", received_message->valuestring);
 

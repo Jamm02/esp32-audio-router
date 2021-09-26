@@ -1,0 +1,34 @@
+menu "Supplicant"
+
+    config WPA_MBEDTLS_CRYPTO
+        bool "Use MbedTLS crypto API's"
+        default y
+        help
+            Select this option to use MbedTLS crypto API's which utilize hardware acceleration.
+
+    config WPA_DEBUG_PRINT
+        bool "Print debug messages from WPA Supplicant"
+        default n
+        help
+            Select this option to print logging information from WPA supplicant,
+            this includes handshake information and key hex dumps depending
+            on the project logging level.
+
+            Enabling this could increase the build size ~60kb
+            depending on the project logging level.
+
+    config WPA_TESTING_OPTIONS
+        bool "Add DPP testing code"
+        default n
+        help
+            Select this to enable unity test for DPP.
+
+    config WPA_WPS_STRICT
+        bool "Strictly validate all WPS attributes"
+        default n
+        help
+            Select this option to enable validate each WPS attribute
+            rigorously. Disabling this add the workaorunds with various APs.
+            Enabling this may cause inter operability issues with some APs.
+
+endmenu

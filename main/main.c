@@ -1,3 +1,6 @@
+#include "sra_board.h"
+//#define debug
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -17,9 +20,12 @@
 #include "esp_gap_bt_api.h"
 #include "esp_a2dp_api.h"
 #include "driver/i2s.h"
-
+#include <math.h>
 
 #include "tuning_http_server.h"
+
+
+
 
 
 /* event for handler "bt_av_hdl_stack_up */
@@ -34,6 +40,8 @@ static void bt_av_hdl_stack_evt(uint16_t event, void *p_param);
 void app_main(void)
 {
     start_tuning_http_server();
+
+
     /* Initialize NVS — it is used to store PHY calibration data */
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {

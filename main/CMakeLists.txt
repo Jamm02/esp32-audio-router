@@ -1,5 +1,8 @@
+# Edit following two lines to set component requirements (see docs)
+set(COMPONENT_REQUIRES )
+set(COMPONENT_PRIV_REQUIRES )
 
-set(COMPONENT_SRCS "bt_app_av.c" "bt_app_core.c" "main.c" "tuning_http_server.c" "wifi_handler.c" INCLUDE_DIRS "." )
+set(COMPONENT_SRCS "main.c" "tuning_http_server.c" "wifi_handler.c" "bt_app_av.c" "bt_app_core.c"  INCLUDE_DIRS ".")
 set(COMPONENT_ADD_INCLUDEDIRS "include")
 
 register_component()
