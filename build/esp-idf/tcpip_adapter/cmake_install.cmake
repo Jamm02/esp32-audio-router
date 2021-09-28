@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/tcpip_adapter
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/tcpip_adapter
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

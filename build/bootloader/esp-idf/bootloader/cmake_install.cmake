@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/bootloader
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/bootloader
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

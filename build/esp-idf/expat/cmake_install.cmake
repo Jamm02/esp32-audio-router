@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/expat
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/expat
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

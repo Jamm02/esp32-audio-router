@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/soc/soc/esp32
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/soc/soc/esp32
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

@@ -1,7 +1,0 @@
-[mapping:freertos]
-archive: libfreertos.a
-entries:
-    * (noflash_text)
-    if FREERTOS_SUPPORT_STATIC_ALLOCATION = y:
-        queue:xQueueGenericCreateStatic (default)
-

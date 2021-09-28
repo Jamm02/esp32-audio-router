@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/sra-board-component
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp32-audio-router/components/sra-board-component
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

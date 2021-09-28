@@ -1675,6 +1675,74 @@
                 "children": [
                     {
                         "children": [],
+                        "depends_on": "<choice EXAMPLE_A2DP_SINK_OUTPUT>",
+                        "help": "Select this to use Internal DAC sink output",
+                        "id": "EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC",
+                        "name": "EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC",
+                        "range": null,
+                        "title": "Internal DAC",
+                        "type": "bool"
+                    },
+                    {
+                        "children": [],
+                        "depends_on": "<choice EXAMPLE_A2DP_SINK_OUTPUT>",
+                        "help": "Select this to use External I2S sink output",
+                        "id": "EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S",
+                        "name": "EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S",
+                        "range": null,
+                        "title": "External I2S Codec",
+                        "type": "bool"
+                    }
+                ],
+                "depends_on": null,
+                "help": "Select to use Internal DAC or external I2S driver",
+                "id": "a2dp-example-configuration-a2dp-sink-output",
+                "name": "EXAMPLE_A2DP_SINK_OUTPUT",
+                "title": "A2DP Sink Output",
+                "type": "choice"
+            },
+            {
+                "children": [],
+                "depends_on": "EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S",
+                "help": "GPIO number to use for I2S LRCK(WS) Driver.",
+                "id": "EXAMPLE_I2S_LRCK_PIN",
+                "name": "EXAMPLE_I2S_LRCK_PIN",
+                "range": null,
+                "title": "I2S LRCK (WS) GPIO",
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": "EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S",
+                "help": "GPIO number to use for I2S BCK Driver.",
+                "id": "EXAMPLE_I2S_BCK_PIN",
+                "name": "EXAMPLE_I2S_BCK_PIN",
+                "range": null,
+                "title": "I2S BCK GPIO",
+                "type": "int"
+            },
+            {
+                "children": [],
+                "depends_on": "EXAMPLE_A2DP_SINK_OUTPUT_EXTERNAL_I2S",
+                "help": "GPIO number to use for I2S Data Driver.",
+                "id": "EXAMPLE_I2S_DATA_PIN",
+                "name": "EXAMPLE_I2S_DATA_PIN",
+                "range": null,
+                "title": "I2S DATA GPIO",
+                "type": "int"
+            }
+        ],
+        "depends_on": null,
+        "id": "a2dp-example-configuration",
+        "title": "A2DP Example Configuration",
+        "type": "menu"
+    },
+    {
+        "children": [
+            {
+                "children": [
+                    {
+                        "children": [],
                         "depends_on": "<choice COMPILER_OPTIMIZATION>",
                         "help": null,
                         "id": "COMPILER_OPTIMIZATION_DEFAULT",

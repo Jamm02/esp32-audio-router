@@ -1,5 +1,16 @@
-#include "sra_board.h"
-//#define debug
+// Copyright 2015-2016 Espressif Systems (Shanghai) PTE LTD
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,14 +30,14 @@
 #include "esp_bt_device.h"
 #include "esp_gap_bt_api.h"
 #include "esp_a2dp_api.h"
+#include "esp_avrc_api.h"
 #include "driver/i2s.h"
-#include <math.h>
 
 #include "tuning_http_server.h"
 
+#include "sra_board.h"
 
-
-
+#define CONFIG_EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC
 
 /* event for handler "bt_av_hdl_stack_up */
 enum {
@@ -37,11 +48,8 @@ enum {
 static void bt_av_hdl_stack_evt(uint16_t event, void *p_param);
 
 
-void app_main(void)
+void app_main()
 {
-    start_tuning_http_server();
-
-
     /* Initialize NVS — it is used to store PHY calibration data */
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -50,7 +58,38 @@ void app_main(void)
     }
     ESP_ERROR_CHECK(err);
 
-  
+    i2s_config_t i2s_config = {
+#ifdef CONFIG_EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC
+        .mode = I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN,
+#else
+        .mode = I2S_MODE_MASTER | I2S_MODE_TX,                                  // Only TX
+#endif
+        .sample_rate = 44100,
+        .bits_per_sample = 16,
+        .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,                           //2-channels
+        .communication_format = I2S_COMM_FORMAT_STAND_MSB,
+        .dma_buf_count = 6,
+        .dma_buf_len = 60,
+        .intr_alloc_flags = 0,                                                  //Default interrupt priority
+        .tx_desc_auto_clear = true                                              //Auto clear tx descriptor on underflow
+    };
+
+
+    i2s_driver_install(0, &i2s_config, 0, NULL);
+#ifdef CONFIG_EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC
+    i2s_set_dac_mode(I2S_DAC_CHANNEL_BOTH_EN);
+    i2s_set_pin(0, NULL);
+#else
+    i2s_pin_config_t pin_config = {
+        .bck_io_num = CONFIG_EXAMPLE_I2S_BCK_PIN,
+        .ws_io_num = CONFIG_EXAMPLE_I2S_LRCK_PIN,
+        .data_out_num = CONFIG_EXAMPLE_I2S_DATA_PIN,
+        .data_in_num = -1                                                       //Not used
+    };
+
+    i2s_set_pin(0, &pin_config);
+#endif
+
 
     ESP_ERROR_CHECK(esp_bt_controller_mem_release(ESP_BT_MODE_BLE));
 
@@ -81,6 +120,27 @@ void app_main(void)
     /* Bluetooth device name, connection mode and profile set up */
     bt_app_work_dispatch(bt_av_hdl_stack_evt, BT_APP_EVT_STACK_UP, NULL, 0, NULL);
 
+#if (CONFIG_BT_SSP_ENABLED == true)
+    /* Set default parameters for Secure Simple Pairing */
+    esp_bt_sp_param_t param_type = ESP_BT_SP_IOCAP_MODE;
+    esp_bt_io_cap_t iocap = ESP_BT_IO_CAP_IO;
+    esp_bt_gap_set_security_param(param_type, &iocap, sizeof(uint8_t));
+#endif
+
+    /*
+     * Set default parameters for Legacy Pairing
+     * Use fixed pin code
+     */
+    esp_bt_pin_type_t pin_type = ESP_BT_PIN_TYPE_FIXED;
+    esp_bt_pin_code_t pin_code;
+    pin_code[0] = '1';
+    pin_code[1] = '2';
+    pin_code[2] = '3';
+    pin_code[3] = '4';
+    esp_bt_gap_set_pin(pin_type, 4, pin_code);
+
+    start_tuning_http_server();
+
 
 }
 
@@ -96,6 +156,19 @@ void bt_app_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
         }
         break;
     }
+
+#if (CONFIG_BT_SSP_ENABLED == true)
+    case ESP_BT_GAP_CFM_REQ_EVT:
+        ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_CFM_REQ_EVT Please compare the numeric value: %d", param->cfm_req.num_val);
+        esp_bt_gap_ssp_confirm_reply(param->cfm_req.bda, true);
+        break;
+    case ESP_BT_GAP_KEY_NOTIF_EVT:
+        ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_KEY_NOTIF_EVT passkey:%d", param->key_notif.passkey);
+        break;
+    case ESP_BT_GAP_KEY_REQ_EVT:
+        ESP_LOGI(BT_AV_TAG, "ESP_BT_GAP_KEY_REQ_EVT Please enter passkey!");
+        break;
+#endif
 
     default: {
         ESP_LOGI(BT_AV_TAG, "event: %d", event);
@@ -114,13 +187,14 @@ static void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
         esp_bt_dev_set_device_name(dev_name);
 
         esp_bt_gap_register_callback(bt_app_gap_cb);
-        
+
+        /* initialize AVRCP controller */
         esp_avrc_ct_init();
         esp_avrc_ct_register_callback(bt_app_rc_ct_cb);
-        
+        /* initialize AVRCP target */
         assert (esp_avrc_tg_init() == ESP_OK);
         esp_avrc_tg_register_callback(bt_app_rc_tg_cb);
-
+                                                                   
         esp_avrc_rn_evt_cap_mask_t evt_set = {0};
         esp_avrc_rn_evt_bit_mask_operation(ESP_AVRC_BIT_MASK_OP_SET, &evt_set, ESP_AVRC_RN_VOLUME_CHANGE);
         assert(esp_avrc_tg_set_rn_evt_cap(&evt_set) == ESP_OK);

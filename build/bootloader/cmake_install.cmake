@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/bootloader/subproject
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/bootloader/subproject
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/moteenshah/Desktop/Workspace/a2dp_sink/build/bootloader/esp-idf/cmake_install.cmake")
+  include("/Users/moteenshah/Desktop/Workspace/esp32-audio-router/build/bootloader/esp-idf/cmake_install.cmake")
 
 endif()
 
@@ -51,5 +51,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/moteenshah/Desktop/Workspace/a2dp_sink/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/moteenshah/Desktop/Workspace/esp32-audio-router/build/bootloader/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

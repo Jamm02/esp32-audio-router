@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/cxx
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/cxx
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

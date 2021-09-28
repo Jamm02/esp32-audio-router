@@ -1,4 +1,4 @@
-/* * Data converted from /Users/moteenshah/Desktop/Workspace/a2dp_sink/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from /Users/moteenshah/Desktop/Workspace/esp32-audio-router/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 .section .rodata.embedded

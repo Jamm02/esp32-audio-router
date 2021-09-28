@@ -6,7 +6,7 @@
 # It is included in the main 'build.ninja'.
 
 # =============================================================================
-# Project: espidf
+# Project: a2dp_sink
 # Configurations: 
 # =============================================================================
 # =============================================================================
@@ -22,7 +22,7 @@ rule CUSTOM_COMMAND
 #############################################
 # Rule for compiling C files.
 
-rule C_COMPILER__espidf.2eelf_
+rule C_COMPILER__a2dp_sink.2eelf_
   depfile = $DEP_FILE
   deps = gcc
   command = /Users/moteenshah/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc $DEFINES $INCLUDES $FLAGS -MD -MT $out -MF $DEP_FILE -o $out -c $in
@@ -32,7 +32,7 @@ rule C_COMPILER__espidf.2eelf_
 #############################################
 # Rule for linking CXX executable.
 
-rule CXX_EXECUTABLE_LINKER__espidf.2eelf_
+rule CXX_EXECUTABLE_LINKER__a2dp_sink.2eelf_
   command = $PRE_LINK && /Users/moteenshah/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-g++ $FLAGS $LINK_FLAGS $in -o $TARGET_FILE $LINK_PATH $LINK_LIBRARIES && $POST_BUILD
   description = Linking CXX executable $TARGET_FILE
   restat = $RESTAT
@@ -1479,7 +1479,7 @@ rule CXX_STATIC_LIBRARY_LINKER____idf_sra-board-component_
 # Rule for re-running cmake.
 
 rule RERUN_CMAKE
-  command = /usr/local/Cellar/cmake/3.21.1/bin/cmake --regenerate-during-build -S/Users/moteenshah/Desktop/Workspace/a2dp_sink -B/Users/moteenshah/Desktop/Workspace/a2dp_sink/build
+  command = /usr/local/Cellar/cmake/3.21.1/bin/cmake --regenerate-during-build -S/Users/moteenshah/Desktop/Workspace/esp32-audio-router -B/Users/moteenshah/Desktop/Workspace/esp32-audio-router/build
   description = Re-running CMake...
   generator = 1
 

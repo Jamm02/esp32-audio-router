@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/soc/soc
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/soc/soc
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -39,7 +39,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/Users/moteenshah/Desktop/Workspace/a2dp_sink/build/esp-idf/soc/soc/esp32/cmake_install.cmake")
+  include("/Users/moteenshah/Desktop/Workspace/esp32-audio-router/build/esp-idf/soc/soc/esp32/cmake_install.cmake")
 
 endif()
 

@@ -1,4 +1,4 @@
-# Install script for directory: /Users/moteenshah/Desktop/Workspace/a2dp_sink/components/esp_local_ctrl
+# Install script for directory: /Users/moteenshah/Desktop/Workspace/esp/esp-idf/components/esp_local_ctrl
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
