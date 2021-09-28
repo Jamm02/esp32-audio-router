@@ -1,5 +1,5 @@
 build/
-sdkconfig
-sdkconfig.old
-.DS_Store
-Readme.md
+sdkconfig/
+sdkconfig.old/
+.DS_Store/
+Readme.md/
