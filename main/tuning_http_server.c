@@ -62,7 +62,7 @@ void start_bluetooth(void *arg)
     bt_app_task_start_up();
 
     /* Bluetooth device name, connection mode and profile set up */
-    bt_app_work_di=spatch(bt_av_hdl_stack_evt, BT_APP_EVT_STACK_UP, NULL, 0, NULL);
+    bt_app_work_dispatch(bt_av_hdl_stack_evt, BT_APP_EVT_STACK_UP, NULL, 0, NULL);
 
 #if (CONFIG_BT_SSP_ENABLED == true)
     /* Set default parameters for Secure Simple Pairing */
