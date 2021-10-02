@@ -32,7 +32,7 @@ static bt_name_t bt_name_obj = {.bt_name = "no name"};
 static const char *TAG = "tuning_http_server";
 static char scratch[SCRATCH_BUFSIZE];
 
-
+bool temp_count = 0;
 // bt_name_t read_bt_name()
 // {
 //     return bt_name_obj;
@@ -293,6 +293,7 @@ static esp_err_t rest_common_get_handler(httpd_req_t *req)
 /* Simple handler for on button press handling */
 static esp_err_t click_post_handler(httpd_req_t *req)
 {
+    extern bool temp_count;
     
      if (req->content_len == 0)
     {
@@ -312,8 +313,15 @@ static esp_err_t click_post_handler(httpd_req_t *req)
         cJSON *received_message = cJSON_GetObjectItemCaseSensitive(json, "motion");
         if (received_message)
         {
-            bt_app_task_shut_down();
              
+            if (temp_count != 0){
+            ESP_LOGE(TAG, "IN TEMP_COUNT%s", " ");
+
+                bt_app_task_shut_down();
+                bt_i2s_task_shut_down();
+                vTaskDelete(start_bluetooth_hdl);
+            }
+            temp_count = 1;
             char *response_string = malloc(strlen(received_message->valuestring) + 200);
             sprintf(response_string, "Motion is : %s", received_message->valuestring);
             
@@ -325,9 +333,8 @@ static esp_err_t click_post_handler(httpd_req_t *req)
            
             ESP_LOGI(TAG, "BT_NAME_obj_passed %s", bt_name_obj.bt_name);
 
+            ESP_LOGE(TAG, "temp_count%s", (char*)temp_count);
             // start_bluetooth();
-            
-             
             xTaskCreate(start_bluetooth, "Bluetooth initializer", 8192, NULL, 1, &start_bluetooth_hdl);
         
             
@@ -338,7 +345,7 @@ static esp_err_t click_post_handler(httpd_req_t *req)
             httpd_resp_send(req, response_payload, strlen(response_payload));
             free(response_payload);
            
-            vTaskDelete(start_bluetooth_hdl);
+            
 
             //    xTaskCreate(start_bluetooth, "Bluetooth initializer", 4096, NULL, 5, NULL);
             return ESP_OK;
@@ -415,5 +422,4 @@ void start_tuning_http_server()
 
     vTaskDelete(NULL);
 
-    // xTaskCreate(start_bluetooth, "Bluetooth initialization", 8192, NULL, 1, &start_bluetooth_hdl);
 }
