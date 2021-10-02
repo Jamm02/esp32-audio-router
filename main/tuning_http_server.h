@@ -27,6 +27,14 @@
 #define SCRATCH_BUFSIZE (10240)
 #define CHECK_FILE_EXTENSION(filename, ext) (strcasecmp(&filename[strlen(filename) - strlen(ext)], ext) == 0)
 
+typedef struct bluetooth_name
+{
+    char *bt_name;
+} bt_name_t;
+
+bt_name_t read_bt_name();
+void start_bluetooth(void *arg);
+
 void start_tuning_http_server();
 
 #endif
