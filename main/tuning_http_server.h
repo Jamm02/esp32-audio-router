@@ -33,7 +33,7 @@ typedef struct bluetooth_name
 } bt_name_t;
 
 bt_name_t read_bt_name();
-void start_bluetooth(void *arg);
+void start_bluetooth();
 
 void start_tuning_http_server();
 

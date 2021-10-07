@@ -26,7 +26,6 @@
 #include "esp_avrc_api.h"
 #include "driver/i2s.h"
 
-static xTaskHandle start_bluetooth_hdl = NULL;
 
 static bt_name_t bt_name_obj = {.bt_name = "no name"};
 static const char *TAG = "tuning_http_server";
@@ -50,13 +49,9 @@ enum {
 /* handler for bluetooth stack enabled events */
 void bt_av_hdl_stack_evt(uint16_t event, void *p_param);
 
-
-void start_bluetooth(void *arg)
+void start_bluetooth()
 {
-
-
     ESP_LOGE(BT_AV_TAG, "startblu main.c %s",bt_name_obj.bt_name);
-
 
     /* create application task */
     bt_app_task_start_up();
@@ -120,21 +115,15 @@ void bt_app_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
 {
     ESP_LOGE(BT_AV_TAG, "IN change name %s"," ");
-
+    
     // char *bt_name_by_user = bt_name_obj.bt_name;
-    ESP_LOGE(BT_AV_TAG, "BT_NAME_in main %s", bt_name_obj.bt_name);
-    // if (strcmp(bt_name_by_user, "jn") != 0){
-    //     esp_restart();
-    // }
-    // ESP_LOGE(BT_AV_TAG, "%s evt %d", __func__, bt_name_by_user);
+    ESP_LOGE(BT_AV_TAG, "BT_NAME_in change name %s", bt_name_obj.bt_name);
   
     ESP_LOGD(BT_AV_TAG, "%s evt %d", __func__, event);
     switch (event) {
     case BT_APP_EVT_STACK_UP: {
         /* set up device name */
         char *dev_name = bt_name_obj.bt_name;
-
-        // char *dev_name = "helo";
 
         esp_bt_dev_set_device_name(dev_name);
 
@@ -165,9 +154,6 @@ void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
         break;
     }
 }
-
-
-
 
 
 
@@ -315,11 +301,11 @@ static esp_err_t click_post_handler(httpd_req_t *req)
         {
              
             if (temp_count != 0){
-            ESP_LOGE(TAG, "IN TEMP_COUNT%s", " ");
-
+            
                 bt_app_task_shut_down();
                 bt_i2s_task_shut_down();
-                vTaskDelete(start_bluetooth_hdl);
+                
+                // vTaskDelete(start_bluetooth_hdl);
             }
             temp_count = 1;
             char *response_string = malloc(strlen(received_message->valuestring) + 200);
@@ -327,15 +313,16 @@ static esp_err_t click_post_handler(httpd_req_t *req)
             
             // char *str = received_message->valuestring; //BT_NAME received
 
-            ESP_LOGI(TAG, "BT_NAME %s", received_message->valuestring);
-
             bt_name_obj.bt_name = received_message->valuestring;
            
             ESP_LOGI(TAG, "BT_NAME_obj_passed %s", bt_name_obj.bt_name);
 
-            ESP_LOGE(TAG, "temp_count%s", (char*)temp_count);
-            // start_bluetooth();
-            xTaskCreate(start_bluetooth, "Bluetooth initializer", 8192, NULL, 1, &start_bluetooth_hdl);
+            // ESP_LOGI(TAG, "temp_count%s", (char*)temp_count);
+
+          
+            
+            start_bluetooth();
+            // xTaskCreate(start_bluetooth, "Bluetooth initializer", 8192, NULL, 1, &start_bluetooth_hdl);
         
             
             cJSON_AddStringToObject(json, "response", response_string);
