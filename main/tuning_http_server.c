@@ -32,10 +32,11 @@ static const char *TAG = "tuning_http_server";
 static char scratch[SCRATCH_BUFSIZE];
 
 bool temp_count = 0;
-// bt_name_t read_bt_name()
-// {
-//     return bt_name_obj;
-// }
+
+bt_name_t read_bt_name()
+{
+    return bt_name_obj;
+}
 
 
 
@@ -116,8 +117,8 @@ void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
 {
     ESP_LOGE(BT_AV_TAG, "IN change name %s"," ");
     
-    // char *bt_name_by_user = bt_name_obj.bt_name;
-    ESP_LOGE(BT_AV_TAG, "BT_NAME_in change name %s", bt_name_obj.bt_name);
+    char *bt_name_by_user = read_bt_name().bt_name;
+    ESP_LOGE(BT_AV_TAG, "BT_NAME_in change name %s", bt_name_by_user);
   
     ESP_LOGD(BT_AV_TAG, "%s evt %d", __func__, event);
     switch (event) {
@@ -301,40 +302,39 @@ static esp_err_t click_post_handler(httpd_req_t *req)
         {
              
             if (temp_count != 0){
-            
                 bt_app_task_shut_down();
                 bt_i2s_task_shut_down();
-                
-                // vTaskDelete(start_bluetooth_hdl);
             }
             temp_count = 1;
+
+            esp_err_t err1 = nvs_flash_init();
+            nvs_handle set_str_handle;
+            err1 = nvs_open("storage", NVS_READWRITE, &set_str_handle);
             char *response_string = malloc(strlen(received_message->valuestring) + 200);
             sprintf(response_string, "Motion is : %s", received_message->valuestring);
-            
-            // char *str = received_message->valuestring; //BT_NAME received
 
             bt_name_obj.bt_name = received_message->valuestring;
            
+            char *string_buffer = bt_name_obj.bt_name;
+            err1 = nvs_set_str(set_str_handle, "string_buffer", (const char*)string_buffer);
+            err1 = nvs_commit(set_str_handle);
+            nvs_close(set_str_handle);
+            
+            size_t required_size;
+            nvs_get_str(set_str_handle, "string_buffer", NULL, &required_size);
+            char* bluetooth_name = malloc(required_size);
+            nvs_get_str(set_str_handle, "string_buffer", bluetooth_name, &required_size);
+            ESP_LOGE(TAG, "NVS_DATA %s",bluetooth_name);
+            
             ESP_LOGI(TAG, "BT_NAME_obj_passed %s", bt_name_obj.bt_name);
-
-            // ESP_LOGI(TAG, "temp_count%s", (char*)temp_count);
-
           
-            
             start_bluetooth();
-            // xTaskCreate(start_bluetooth, "Bluetooth initializer", 8192, NULL, 1, &start_bluetooth_hdl);
-        
-            
             cJSON_AddStringToObject(json, "response", response_string);
             char *response_payload = cJSON_Print(json);
             cJSON_Delete(json);
             httpd_resp_set_type(req, "application/json");
             httpd_resp_send(req, response_payload, strlen(response_payload));
             free(response_payload);
-           
-            
-
-            //    xTaskCreate(start_bluetooth, "Bluetooth initializer", 4096, NULL, 5, NULL);
             return ESP_OK;
         }
         httpd_resp_send_err(req, HTTPD_400_BAD_REQUEST, "message missing");
