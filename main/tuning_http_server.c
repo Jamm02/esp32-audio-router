@@ -115,18 +115,24 @@ void bt_app_gap_cb(esp_bt_gap_cb_event_t event, esp_bt_gap_cb_param_t *param)
 }
 void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
 {
-    ESP_LOGE(BT_AV_TAG, "IN change name %s"," ");
-    
-    char *bt_name_by_user = read_bt_name().bt_name;
-    ESP_LOGE(BT_AV_TAG, "BT_NAME_in change name %s", bt_name_by_user);
   
     ESP_LOGD(BT_AV_TAG, "%s evt %d", __func__, event);
     switch (event) {
     case BT_APP_EVT_STACK_UP: {
-        /* set up device name */
-        char *dev_name = bt_name_obj.bt_name;
 
-        esp_bt_dev_set_device_name(dev_name);
+        nvs_handle set_str_handle;
+        nvs_open("storage", NVS_READWRITE, &set_str_handle);
+        size_t required_size =100;
+        char* bluetooth_name = malloc(required_size);
+        nvs_get_str(set_str_handle, "string_buffer",bluetooth_name,&required_size);
+        ESP_LOGE(BT_AV_TAG, "NVS_DATA %s",bluetooth_name);
+
+    
+
+        // /* set up device name */
+        // char *dev_name = bt_name_obj.bt_name;
+
+        esp_bt_dev_set_device_name(bluetooth_name);
 
         esp_bt_gap_register_callback(bt_app_gap_cb);
 
