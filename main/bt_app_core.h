@@ -29,7 +29,7 @@ typedef struct {
     bt_app_cb_t          cb;       /*!< context switch callback */
     void                 *param;   /*!< parameter area needs to be last */
 } bt_app_msg_t;
-
+            
 /**
  * @brief     parameter deep-copy function to be customized
  */
