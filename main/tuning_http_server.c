@@ -300,7 +300,7 @@ static esp_err_t click_post_handler(httpd_req_t *req)
         cJSON *received_message = cJSON_GetObjectItemCaseSensitive(json, "motion");
         if (received_message)
         {
-            
+
             if (temp_count != 0){
                 bt_app_task_shut_down();
                 bt_i2s_task_shut_down();
@@ -316,14 +316,15 @@ static esp_err_t click_post_handler(httpd_req_t *req)
             bt_name_obj.bt_name = received_message->valuestring;
            
             char *string_buffer = bt_name_obj.bt_name;
+
             err1 = nvs_set_str(set_str_handle, "string_buffer", (const char*)string_buffer);
             err1 = nvs_commit(set_str_handle);
-            nvs_close(set_str_handle);
+            // nvs_close(set_str_handle);
             
-            size_t required_size;
-            nvs_get_str(set_str_handle, "string_buffer", NULL, &required_size);
+            size_t required_size = 100;
             char* bluetooth_name = malloc(required_size);
-            nvs_get_str(set_str_handle, "string_buffer", bluetooth_name, &required_size);
+            nvs_get_str(set_str_handle, "string_buffer",bluetooth_name,&required_size);
+            // nvs_get_str(set_str_handle, "string_buffer", bluetooth_name, &required_size);
             ESP_LOGE(TAG, "NVS_DATA %s",bluetooth_name);
             
             ESP_LOGI(TAG, "BT_NAME_obj_passed %s", bt_name_obj.bt_name);
