@@ -133,6 +133,7 @@ void bt_av_hdl_stack_evt(uint16_t event, void *p_param)
         // char *dev_name = bt_name_obj.bt_name;
 
         esp_bt_dev_set_device_name(bluetooth_name);
+        nvs_close(set_str_handle);
 
         esp_bt_gap_register_callback(bt_app_gap_cb);
 
@@ -330,6 +331,7 @@ static esp_err_t click_post_handler(httpd_req_t *req)
             size_t required_size = 100;
             char* bluetooth_name = malloc(required_size);
             nvs_get_str(set_str_handle, "string_buffer",bluetooth_name,&required_size);
+            nvs_close(set_str_handle);
             // nvs_get_str(set_str_handle, "string_buffer", bluetooth_name, &required_size);
             ESP_LOGE(TAG, "NVS_DATA %s",bluetooth_name);
             
