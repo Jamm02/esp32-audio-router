@@ -60,7 +60,13 @@
 
 typedef struct R0_LEFT_INPUT_VOLUME_t
 {
-    uint8_t LINVOL  :6; //Bits 5:0
+    uint8_t LINVOL_0  :1; //Bits 0
+    uint8_t LINVOL_1  :1; //Bits 1
+    uint8_t LINVOL_2  :1; //Bits 2
+    uint8_t LINVOL_3  :1; //Bits 3
+    uint8_t LINVOL_4  :1; //Bits 4
+    uint8_t LINVOL_5  :1; //Bits 5
+
     uint8_t LIZC    :1; //Bits 6
     uint8_t LINMUTE :1; //Bits 7
     uint8_t IPUV    :1; //Bits 8
@@ -70,7 +76,13 @@ typedef struct R0_LEFT_INPUT_VOLUME_t
 
 typedef struct R1_RIGHT_INPUT_VOLUME_t
 {
-    uint8_t RINVOL  :6; //Bits 5:0
+    uint8_t RINVOL_0  :1; //Bits 0
+    uint8_t RINVOL_1  :1; //Bits 1
+    uint8_t RINVOL_2  :1; //Bits 2
+    uint8_t RINVOL_3  :1; //Bits 3
+    uint8_t RINVOL_4  :1; //Bits 4
+    uint8_t RINVOL_5  :1; //Bits 5
+
     uint8_t RIZC    :1; //Bits 6
     uint8_t RINMUTE :1; //Bits 7
     uint8_t IPUV    :1; //Bits 8
@@ -80,24 +92,43 @@ typedef struct R1_RIGHT_INPUT_VOLUME_t
 
 typedef struct R2_LOUT1_VOLUME_t
 {
-    uint8_t LOUT1VOL    :7; //Bits 6:0
+    uint8_t LOUT1VOL_0    :1; //Bits 0
+    uint8_t LOUT1VOL_1    :1; //Bits 1
+    uint8_t LOUT1VOL_2    :1; //Bits 2
+    uint8_t LOUT1VOL_3    :1; //Bits 3
+    uint8_t LOUT1VOL_4    :1; //Bits 4
+    uint8_t LOUT1VOL_5    :1; //Bits 5
+    uint8_t LOUT1VOL_6    :1; //Bits 6
+
     uint8_t LO1ZC       :1; //Bits 7
     uint8_t OUT1VU      :1; //Bits 8
 } _attribute_((packed, aligned(2))) R2_LOUT1_VOLUME_t;
 
 typedef struct R3_ROUT1_VOLUME_t
 {
-    uint8_t ROUT1VOL    :7; //Bits 6:0
+    uint8_t ROUT1VOL_0    :1; //Bits 0
+    uint8_t ROUT1VOL_1    :1; //Bits 1
+    uint8_t ROUT1VOL_2    :1; //Bits 2
+    uint8_t ROUT1VOL_3    :1; //Bits 3
+    uint8_t ROUT1VOL_4    :1; //Bits 4
+    uint8_t ROUT1VOL_5    :1; //Bits 5
+    uint8_t ROUT1VOL_6    :1; //Bits 6
+
     uint8_t RO1ZC       :1; //Bits 7
     uint8_t OUT1VU      :1; //Bits 8
 } _attribute_((packed, aligned(2))) R3_ROUT1_VOLUME_t;
 
 typedef struct R4_CLOCKING_1_t{
 
-    uint8_t ADCDIV      :3; //Bits 8:6
-    uint8_t DACDIV      :3; //Bits 5:3
-    uint8_t SYSCLKDIV   :2; //Bits 2:1
     uint8_t CLKSEL      :1; //Bits 0
+    uint8_t SYSCLKDIV_1   :1; //Bits 1
+    uint8_t SYSCLKDIV_2   :1; //Bits 2
+    uint8_t DACDIV_1      :1; //Bits 3
+    uint8_t DACDIV_2      :1; //Bits 4
+    uint8_t DACDIV_3      :1; //Bits 5
+    uint8_t ADCDIV_1      :1; //Bits 6
+    uint8_t ADCDIV_2      :1; //Bits 7
+    uint8_t ADCDIV_3      :1; //Bits 8
 } _attribute_((packed, aligned(2))) R4_CLOCKING_1_t;
 
 typedef struct R5_ADC_DAC_CONTROL_CTR1_t{
@@ -214,7 +245,9 @@ typedef struct R25_PWR_MGMT_1_t{
     uint8_t AINR         :1; // bit 4
     uint8_t AINL         :1; // bit 5
     uint8_t VREF         :1; // bit 6
-    uint8_t VMIDSEL      :2; // bit 1:0
+    uint8_t VMIDSEL_1      :1; // bit 7
+    uint8_t VMIDSEL_2      :1; // bit 8
+
 }_attribute_((packed, aligned(2))) R25_PWR_MGMT_1_t;
 
 typedef struct R26_PWR_MGMT_2_t{
@@ -320,6 +353,13 @@ typedef struct R46_BYPASS_2_t{
 }_attribute_((packed, aligned(2))) R46_BYPASS_2_t;
 
 typedef struct R47_PWR_MGMT_3_t{
+    uint8_t RSVRD_1      :1; // bits 0
+    uint8_t RSVRD_2      :1; // bits 1
+    uint8_t RSVRD_3      :1; // bits 6
+    uint8_t RSVRD_4      :1; // bits 7
+    uint8_t RSVRD_5      :1; // bits 8
+
+    
     uint8_t ROMIX        :1; // bit 2
     uint8_t LOMIX        :1; // bit 3
     uint8_t RMIC         :1; // bit 4
