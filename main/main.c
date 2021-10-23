@@ -34,7 +34,6 @@ void app_main(void)
 {
 
     wm8960_init();
-    wm8960_set_vol(50);
 
 
    
@@ -56,7 +55,7 @@ void app_main(void)
 #else
         .mode = I2S_MODE_MASTER | I2S_MODE_TX,                                  // Only TX
 #endif
-        .sample_rate = 44100,
+        .sample_rate = 48800,
         .bits_per_sample = 16,
         .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,                           //2-channels
         .communication_format = I2S_COMM_FORMAT_STAND_MSB,

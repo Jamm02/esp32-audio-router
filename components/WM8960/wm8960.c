@@ -1,6 +1,61 @@
 #include "wm8960.h"
 
 
+const uint16_t wm8960_reg_defaults[] = {
+  0x0, 0x0117,
+  0x1, 0x0117,
+  0x2, 0x01fd,
+  0x3, 0x01fd,
+  0x4, 0x0000,
+  0x5, 0x0000,
+  0x6, 0x0000,
+  0x7, 0x0002,
+  0x8, 0x01c0,
+  0x9, 0x0000,
+  0xa, 0x01ff,
+  0xb, 0x01ff,
+
+ 0x10, 0x0000,
+ 0x11, 0x007b,
+ 0x12, 0x0100,
+ 0x13, 0x0032,
+ 0x14, 0x0000,
+ 0x15, 0x00c3,
+ 0x16, 0x00c3,
+ 0x17, 0x01c0,
+ 0x18, 0x0000,
+ 0x19, 0x0000,
+ 0x1a, 0x01e0,
+ 0x1b, 0x0000,
+ 0x1c, 0x0000,
+ 0x1d, 0x0000,
+
+ 0x20, 0x0100,
+ 0x21, 0x0100,
+ 0x22, 0x0150,
+
+ 0x25, 0x0150,
+ 0x26, 0x0000,
+ 0x27, 0x0000,
+ 0x28, 0x0000,
+ 0x29, 0x0000,
+ 0x2a, 0x0040,
+ 0x2b, 0x0000,
+ 0x2c, 0x0000,
+ 0x2d, 0x0050,
+ 0x2e, 0x0050,
+ 0x2f, 0x0000,
+ 0x30, 0x0002,
+ 0x31, 0x0037,
+
+ 0x33, 0x0080,
+ 0x34, 0x0008,
+ 0x35, 0x0031,
+ 0x36, 0x0026,
+ 0x37, 0x00e9,
+
+};
+
 static void wm8960_i2c_init()
 {
     esp_err_t rc;
@@ -92,9 +147,66 @@ static esp_err_t read_register_i2c(uint8_t slave_id, uint8_t reg_addr)
 esp_err_t wm8960_init()
 {
     esp_err_t ret = 0;
-
     wm8960_i2c_init();
-    for (int i = 0; i < sizeof(wm8960_reg_defaults)/sizeof(uint16_t); i += 2 ) {
+    ret = write_register_i2c(CODEC_ADDR,0x0f, 0x0000);
+    if(ret != 0)
+    return ret;
+    else
+    ESP_LOGI(TAG, "WM8960 is reset");
+
+  ret =  write_register_i2c(CODEC_ADDR,0x19, 1<<8 | 1<<7 | 1<<6);
+  ret += write_register_i2c(CODEC_ADDR,0x1A, 1<<8 | 1<<7 | 1<<6 | 1<<5 | 1<<4 | 1<<3);
+  ret += write_register_i2c(CODEC_ADDR,0x2F, 1<<3 | 1<<2);
+  if(ret != 0)  {
+    printf("Source set fail !!\r\n");
+    printf("Error code: %d\r\n",ret);
+    return ret;
+  }
+  
+  //Configure clock
+  //MCLK->div1->SYSCLK->DAC/ADC sample Freq = 25MHz(MCLK)/2*256 = 48.8kHz
+  write_register_i2c(CODEC_ADDR,0x04, 0x0000);
+  
+  //Configure ADC/DAC
+  write_register_i2c(CODEC_ADDR,0x05, 0x0000);
+  
+  //Configure audio interface
+  //I2S format 16 bits word length
+  write_register_i2c(CODEC_ADDR,0x07, 0x0002);
+  
+  //Configure HP_L and HP_R OUTPUTS
+  write_register_i2c(CODEC_ADDR,0x02, 0x0061 | 0x0100);  //LOUT1 Volume Set
+  write_register_i2c(CODEC_ADDR,0x03, 0x0061 | 0x0100);  //ROUT1 Volume Set
+  
+  //Configure SPK_RP and SPK_RN
+  write_register_i2c(CODEC_ADDR,0x28, 0x0077 | 0x0100); //Left Speaker Volume
+  write_register_i2c(CODEC_ADDR,0x29, 0x0077 | 0x0100); //Right Speaker Volume
+  
+  //Enable the OUTPUTS
+  write_register_i2c(CODEC_ADDR,0x31, 0x00F7); //Enable Class D Speaker Outputs
+  
+  //Configure DAC volume
+  write_register_i2c(CODEC_ADDR,0x0a, 0x00FF | 0x0100);
+  write_register_i2c(CODEC_ADDR,0x0b, 0x00FF | 0x0100);
+  
+  //3D
+//  write_register_i2c(0x10, 0x000F);
+  
+  //Configure MIXER
+  write_register_i2c(CODEC_ADDR,0x22, 1<<8 | 1<<7);
+  write_register_i2c(CODEC_ADDR,0x25, 1<<8 | 1<<7);
+  
+  //Jack Detect
+  write_register_i2c(CODEC_ADDR,0x18, 1<<6 | 0<<5);
+  write_register_i2c(CODEC_ADDR,0x17, 0x01C3);
+  write_register_i2c(CODEC_ADDR,0x30, 0x0009);//0x000D,0x0005
+  
+  return 0;
+}
+  
+
+   
+   /* for (int i = 0; i < sizeof(wm8960_reg_defaults)/sizeof(uint16_t); i += 2 ) {
         printf("[%d] %x %x\n", i, wm8960_reg_defaults[i], wm8960_reg_defaults[i+1]);
         ret = write_register_i2c(CODEC_ADDR, wm8960_reg_defaults[i], wm8960_reg_defaults[i+1]);
         if (ret != 0) {
@@ -107,8 +219,10 @@ esp_err_t wm8960_init()
     } else {
         ESP_LOGE(TAG, "WM8960 setup error");
     }
-    return ret;
-}
+
+    */
+   // return ret;
+
 esp_err_t wm8960_set_vol(int vol)
 {
     esp_err_t ret = 0;
@@ -143,5 +257,3 @@ esp_err_t wm8960_get_volume(uint8_t* vol)
 }
 
 
-R0_LEFT_INPUT_VOLUME_t dummy = {.LINVOL = 0,
-                                 .LINMUTE= 10};
