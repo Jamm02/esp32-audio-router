@@ -22,21 +22,10 @@
 #include "tuning_http_server.h"
 #include "driver/i2c.h"
 
-
-
-
-
-
-
-
-
 void app_main(void)
 {
-
     wm8960_init();
-
-
-   
+ 
       /* Initialize NVS — it is used to store PHY calibration data */
     esp_err_t err = nvs_flash_init();
     if (err == ESP_ERR_NVS_NO_FREE_PAGES || err == ESP_ERR_NVS_NEW_VERSION_FOUND) {
@@ -44,11 +33,6 @@ void app_main(void)
         err = nvs_flash_init();
     }
     
-
-
-
-
-
     i2s_config_t i2s_config = {
 #ifdef CONFIG_EXAMPLE_A2DP_SINK_OUTPUT_INTERNAL_DAC
         .mode = I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN,
