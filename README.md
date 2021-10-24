@@ -1,4 +1,4 @@
-# esp32-audio-router
+# Esp32-audio-router
 
 Stream audio using bluetooth.
 
@@ -10,7 +10,7 @@ Stream audio using bluetooth.
   - [About the project](#about-the-project)
     - [Tech Stack](#tech-stack)
     - [File Structure](#file-structure)
-    - [Data Processing:](#data-processing)
+    - [Data Processing](#data-processing)
     - [Program Flow:](#program-flow)
   - [A2DP-Sink:](#a2dp-sink)
   - [Example Output](#example-output)
