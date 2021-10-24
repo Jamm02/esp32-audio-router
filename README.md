@@ -185,8 +185,7 @@ idf.py menuconfig
 * https://github.com/espressif/esp-idf/tree/release/v4.2/examples/protocols/http_server
 
 
-
-  
-  
+## License
+The [License](https://github.com/Jamm02/esp32-audio-router/blob/master/LICENSE) Used for this Project.
   
   
