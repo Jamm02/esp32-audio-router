@@ -28,7 +28,7 @@ Stream audio using bluetooth.
 ## Demonstrations
 
 
-![Controls](https://user-images.githubusercontent.com/84293091/120165747-81a55880-c219-11eb-8082-56b194670d9b.JPG)
+<img width="529" alt="Screenshot 2021-10-24 at 2 19 12 PM" src="https://user-images.githubusercontent.com/84293091/138586973-13b58084-b631-4b95-a717-115fc7098b48.png">
 
 ![Bot](https://user-images.githubusercontent.com/84293091/120164530-4e15fe80-c218-11eb-8234-84aeb8ff666e.gif)
 <!-- ABOUT THE PROJECT -->
@@ -73,7 +73,7 @@ JSON format:
 
 ### Program Flow:
 
-![Flowchart]
+![Flowchart (1)](https://user-images.githubusercontent.com/84293091/138586892-d9802a5b-e4aa-4fc6-a1b8-0f8f436a8f29.png)
 
 
 ## A2DP-Sink:
@@ -111,7 +111,8 @@ connection to the speaker supply. Flexible speaker boost
 settings allow speaker output power to be maximised while
 minimising other analogue supply currents.
 
-![WM8960]
+![WM8960-Audio-Board__74552 1561069495](https://user-images.githubusercontent.com/84293091/138586930-4cbeead6-43b0-4f46-b3f5-f95132e6c200.jpg)
+
 
 A highly flexible input configuration for up to three stereo
 sources is integrated, with a complete microphone interface.
@@ -176,8 +177,10 @@ idf.py menuconfig
   
 ## Acknowledgements and Resources
 * [SRA VJTI](https://github.com/SRA-VJTI)
-* [SRA Wall-E Workshop](https://github.com/SRA-VJTI/Wall-E_v2.2)
 * Special thanks to [Gautam Agarwal](https://github.com/gautam-dev-maker)
+* https://www.waveshare.com/w/upload/1/18/WM8960_v4.2.pdf
+* https://www.waveshare.com/wiki/File:WM8960_Audio_Board_Code.7z
+* https://github.com/espressif/esp-skainet/blob/master/components/hardware_driver/MediaHal/Codec/wm8960/wm8960.c
 * https://github.com/DaveGamble/cJSON
 * https://github.com/espressif/esp-idf/tree/release/v4.2/examples/protocols/http_server
 
