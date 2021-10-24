@@ -30,7 +30,9 @@ Stream audio using bluetooth.
 
 <img width="529" alt="Screenshot 2021-10-24 at 2 19 12 PM" src="https://user-images.githubusercontent.com/84293091/138586973-13b58084-b631-4b95-a717-115fc7098b48.png">
 
-https://user-images.githubusercontent.com/84293091/138589952-344afbc2-e05e-4f5d-a8e5-b4d21181e6ed.mp4
+https://user-images.githubusercontent.com/84293091/138590340-0dacf2f0-549a-4249-93e1-128a6e0cad74.mp4
+
+
 
 
 <!-- ABOUT THE PROJECT -->
