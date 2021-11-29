@@ -181,7 +181,7 @@ idf.py menuconfig
   
 ## Acknowledgements and Resources
 * [SRA VJTI](https://github.com/SRA-VJTI)
-* Special thanks to [Gautam Agarwal](https://github.com/gautam-dev-maker), [Shreyas Atre](https://github.com/SAtacker), [Dhairya Shah](https://github.com/dhairyashah1), [Vedant Prajapane](https://github.com/VedantParanjape)
+* Special thanks to [Gautam Agarwal](https://github.com/gautam-dev-maker), [Shreyas Atre](https://github.com/SAtacker), [Dhairya Shah](https://github.com/dhairyashah1), [Vedant Paranjape](https://github.com/VedantParanjape)
 * https://www.waveshare.com/w/upload/1/18/WM8960_v4.2.pdf
 * https://www.waveshare.com/wiki/File:WM8960_Audio_Board_Code.7z
 * https://github.com/espressif/esp-skainet/blob/master/components/hardware_driver/MediaHal/Codec/wm8960/wm8960.c
